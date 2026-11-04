@@ -1,0 +1,49 @@
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css";
+
+@import "nativewind/theme";
+/* * {
+  color: #e4dec3;
+  #c1ffff,#8cc8c9, #599495, #266364 und #003637
+} */
+@theme {
+  --color-background: #c1ffff;
+  --color-foreground: #8cc8c9;
+  --color-card: #599495;
+  --color-muted: #266364;
+  /* --color-muted-foreground: rgba(0, 0, 0, 0.6); */
+  --color-primary: #003637;
+  /* --color-accent: #ea7a53; */
+
+  --color-border: rgba(0, 0, 0, 0.1);
+  --color-success: #16a34a;
+  --color-destructive: #dc2626;
+  --color-subscription: #8fd1bd;
+
+  --font-rubik: rubik-regular;
+  --font-rubik-semibold: rubik-semibold;
+  --font-rubik-bold: rubik-bold;
+  --font-rubik-extrabold: rubik-extrabold;
+  --font-rubik-light: rubik-light;
+  --font-rubik-medium: rubik-medium;
+  --spacing-0: 0px;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-7: 28px;
+  --spacing-8: 32px;
+  --spacing-9: 36px;
+  --spacing-10: 40px;
+  --spacing-11: 44px;
+  --spacing-12: 48px;
+  --spacing-14: 56px;
+  --spacing-16: 64px;
+  --spacing-18: 72px;
+  --spacing-20: 80px;
+  --spacing-24: 96px;
+  --spacing-30: 120px;
+}
