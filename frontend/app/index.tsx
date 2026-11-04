@@ -3,8 +3,10 @@ import Add from "@/components/Add";
 import Button from "@/components/Button";
 import ThemedText from "@/components/ThemedText";
 import { Colors } from "@/constants/theme";
-import {TaskItem} from "@/components/CheckItem";
+import { TaskItem } from "@/components/CheckItem";
+import { router } from "expo-router";
 import {
+  Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -32,7 +34,7 @@ export default function App() {
           ? currentTasks[currentTasks.length - 1].id + 1
           : 1,
         title,
-        checked: false,
+        checked: true,
       },
     ]);
     setNewTask("");
@@ -56,21 +58,35 @@ export default function App() {
       className="flex-1 bg-background"
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
+      <Image
+        source={require("../assets/images/waves.png")}
+        resizeMode="contain"
+        pointerEvents="none"
+        style={{
+          position: "absolute",
+          bottom: 0,
+          width: "100%",
+          aspectRatio: 1,
+        }}
+      />
       <ScrollView
-        className="bg-background p-5"
+        className="bg-transparent p-5"
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
       >
         <View className="items-center pt-20 w-full flex-1">
           <View className="w-full pr-30 pb-10">
-            <ThemedText
-              type="subtitle"
-              themeColor="text"
-            >Was steht heute auf deiner Liste?</ThemedText>
+            <View className="w-full flex-row">
+              <ThemedText
+                type="subtitle"
+                themeColor="text"
+              >What’s on your to-do list today?</ThemedText>
+              <Image source={require("../assets/images/splash.png")} className="w-15 h-15 ml-2" />
+            </View>
             <ThemedText
               type="default"
               themeColor="textMuted"
-            >Wähle Aufgaben aus, wische sie zum Entfernen weg oder lade ein Template.</ThemedText>
+            >Choose tasks, swipe to remove, or load a template.</ThemedText>
           </View>
           <View className="w-full pb-5 gap-3">
             {tasks.map((task) => (
@@ -87,7 +103,7 @@ export default function App() {
             >
               <Add />
               <ThemedText themeColor="textMuted">
-                Neue Aufgabe hinzufügen
+                Add a new task
               </ThemedText>
             </TouchableOpacity>
             {isAddingTask && (
@@ -95,7 +111,7 @@ export default function App() {
                 <TextInput
                   autoFocus
                   className="text-primary"
-                  placeholder="Aufgabe eingeben"
+                  placeholder="Enter task"
                   placeholderTextColor={Colors.textMuted}
                   returnKeyType="done"
                   value={newTask}
@@ -103,12 +119,12 @@ export default function App() {
                   onSubmitEditing={addTask}
                 />
                 <Button
-                  text="Aufgabe hinzufügen"
+                  text="Add Task"
                   onPress={addTask}
                   disabled={!newTask.trim()}
                 />
                 <Button
-                  text="Abbrechen"
+                  text="Cancel"
                   onPress={() => {
                     setNewTask("");
                     setIsAddingTask(false);
@@ -120,14 +136,14 @@ export default function App() {
           </View>
           <View className="w-full pb-5">
             <Button
-              text="Template laden"
-              onPress={() => { }}
+              text="Load Template"
+              onPress={() => router.push("/templates")}
               secondary
             />
           </View>
           <Button
-            text="Weiter →"
-            onPress={() => { }}
+            text="Continue →"
+            onPress={() => router.push("/setTimes")}
           />
         </View>
       </ScrollView>
