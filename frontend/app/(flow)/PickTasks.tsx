@@ -14,24 +14,28 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useApp } from "../context/AppContext";
 
 
-export default function App() {
+export default function PickTasks() {
   const [tasks, setTasks] = useState([
     { id: 1, title: "Projektpräsentation vorbereiten", checked: false },
   ]);
+
+  const { todos, setTodos } = useApp();
+
   const [isAddingTask, setIsAddingTask] = useState(false);
   const [newTask, setNewTask] = useState("");
 
-  const addTask = () => {
+  const addTodo = () => {
     const title = newTask.trim();
     if (!title) return;
 
-    setTasks((currentTasks) => [
-      ...currentTasks,
+    setTodos([
+      ...todos,
       {
-        id: currentTasks.length
-          ? currentTasks[currentTasks.length - 1].id + 1
+        id: todos.length
+          ? todos[todos.length - 1].id + 1
           : 1,
         title,
         checked: true,
@@ -42,16 +46,17 @@ export default function App() {
   };
 
   const toggleTask = (id: number) => {
-    setTasks((currentTasks) =>
-      currentTasks.map((task) =>
+    setTodos(
+      todos.map((task) =>
         task.id === id ? { ...task, checked: !task.checked } : task,
       ),
     );
   };
 
   const removeTask = (id: number) => {
-    setTasks((currentTasks) => currentTasks.filter((task) => task.id !== id));
+    setTodos(todos.filter((task) => task.id !== id));
   };
+
 
   return (
     <KeyboardAvoidingView
@@ -59,7 +64,7 @@ export default function App() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <Image
-        source={require("../assets/images/waves.png")}
+        source={require("../../assets/images/waves.png")}
         resizeMode="contain"
         pointerEvents="none"
         style={{
@@ -81,7 +86,7 @@ export default function App() {
                 type="subtitle"
                 themeColor="text"
               >What’s on your to-do list today?</ThemedText>
-              <Image source={require("../assets/images/splash.png")} className="w-15 h-15 ml-2" />
+              <Image source={require("../../assets/images/splash.png")} className="w-15 h-15 ml-2" />
             </View>
             <ThemedText
               type="default"
@@ -89,7 +94,7 @@ export default function App() {
             >Choose tasks, swipe to remove, or load a template.</ThemedText>
           </View>
           <View className="w-full pb-5 gap-3">
-            {tasks.map((task) => (
+            {todos.map((task) => (
               <TaskItem
                 key={task.id}
                 task={task}
@@ -116,11 +121,11 @@ export default function App() {
                   returnKeyType="done"
                   value={newTask}
                   onChangeText={setNewTask}
-                  onSubmitEditing={addTask}
+                  onSubmitEditing={addTodo}
                 />
                 <Button
                   text="Add Task"
-                  onPress={addTask}
+                  onPress={addTodo}
                   disabled={!newTask.trim()}
                 />
                 <Button
@@ -143,7 +148,10 @@ export default function App() {
           </View>
           <Button
             text="Continue →"
-            onPress={() => router.push("/setTimes")}
+            onPress={() => { 
+              setTodos(todos.filter(t=>t.checked))  // nur die ausgewählten Aufgaben kommen weiter
+              router.push("/setTimes");
+            }}
           />
         </View>
       </ScrollView>

@@ -4,22 +4,25 @@ import Ionicons from '@react-native-vector-icons/ionicons'
 import { router } from "expo-router";
 import ThemedText from '@/components/ThemedText';
 import { Colors } from '@/constants/theme';
-import { getCurrentMinutes, formatTime } from '@/utils/utils';
+import { getCurrentMinutesPlus5Minutes, formatTime } from '@/utils/utils';
 import { TimeWheel } from '@/components/TimeWheel';
 import Button from '@/components/Button';
+import { useApp } from '../context/AppContext';
 
 type TimeField = 'start' | 'end'
 
 const SetTimes = () => {
-    const [startTime, setStartTime] = useState(getCurrentMinutes)
+    const [startTime, setStartTime] = useState(getCurrentMinutesPlus5Minutes)
     const [endTime, setEndTime] = useState<number | null>(null)
     const [editingField, setEditingField] = useState<TimeField | null>(null)
-    const [draftTime, setDraftTime] = useState(getCurrentMinutes)
+    const [draftTime, setDraftTime] = useState(getCurrentMinutesPlus5Minutes)
 
     const openTimePicker = (field: TimeField) => {
-        setDraftTime(field === 'end' && endTime !== null ? endTime : getCurrentMinutes())
+        setDraftTime(field === 'end' && endTime !== null ? endTime : getCurrentMinutesPlus5Minutes())
         setEditingField(field)
     }
+
+    const { todos } = useApp();
 
     const adjustDraftTime = useCallback((amount: number) => {
         setDraftTime((currentTime) => (currentTime + amount + 24 * 60) % (24 * 60))
@@ -37,7 +40,7 @@ const SetTimes = () => {
     return (
         <View className="w-full flex-1 h-screen pt-10 bg-background">
             <Image
-                source={require("../assets/images/waves.png")}
+                source={require("../../assets/images/waves.png")}
                 resizeMode="contain"
                 pointerEvents="none"
                 style={{
@@ -58,7 +61,7 @@ const SetTimes = () => {
                         type="subtitle"
                         themeColor="text"
                     >When are you available?</ThemedText>
-                    <Image source={require("../assets/images/splash.png")} className="w-15 h-15 ml-2" />
+                    <Image source={require("../../assets/images/splash.png")} className="w-15 h-15 ml-2" />
                 </View>
                 <ThemedText
                     type="default"
@@ -158,6 +161,9 @@ const SetTimes = () => {
                     </View>
                 </View>
             </Modal>
+            {todos.map((task) => (
+                <ThemedText key={task.id}>{task.title}</ThemedText>
+            ))}
             <View className="w-full absolute bottom-20 p-5">
                 <Button
                     text="Continue →"

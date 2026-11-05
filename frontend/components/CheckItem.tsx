@@ -7,20 +7,16 @@ import {
 import Check from "./Check";
 import ThemedText from "./ThemedText";
 
-type Task = {
-  id: number;
-  title: string;
-  checked: boolean;
-};
+
 
 export function TaskItem({
   task,
   onToggle,
   onRemove,
 }: {
-  task: Task;
-  onToggle: (id: number) => void;
-  onRemove: (id: number) => void;
+  task: Todo;
+  onToggle: (_id: number) => void;
+  onRemove: (_id: number) => void;
 }) {
   const [translateX] = useState(() => new Animated.Value(0));
   const panResponder = useMemo(
