@@ -21,6 +21,9 @@ const templateSchema = mongoose.Schema(
         endTime: {
           type: Date,
         },
+        duration: {
+          type: Number
+        }
       },
     ],
   },

@@ -14,14 +14,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useApp } from "../context/AppContext";
+import { useApp } from "../../context/AppContext";
 
 
 export default function PickTasks() {
-  const [tasks, setTasks] = useState([
-    { id: 1, title: "Projektpräsentation vorbereiten", checked: false },
-  ]);
-
   const { todos, setTodos } = useApp();
 
   const [isAddingTask, setIsAddingTask] = useState(false);

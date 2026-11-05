@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import SafeAsyncStorage from "../../utils/SafeAsyncStorage";
+import SafeAsyncStorage from "../utils/SafeAsyncStorage";
 import { useAuth } from "./AuthContext";
 
 export interface AppContextType {

@@ -58,6 +58,13 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+    streak: {
+      type:Number,
+      default: 0
+    },
+    lastStreakDate: {
+      type: Date,
+    }
   },
   { timestamps: true },
 );

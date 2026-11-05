@@ -1,8 +1,8 @@
 import { SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
-import { AuthProvider } from "./context/AuthContext";
-import { AppProvider } from "./context/AppContext";
+import { AuthProvider } from "../context/AuthContext";
+import { AppProvider } from "../context/AppContext";
 import "@/global.css";
 
 // void SplashScreen.preventAutoHideAsync();

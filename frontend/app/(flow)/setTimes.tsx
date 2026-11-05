@@ -7,7 +7,7 @@ import { Colors } from '@/constants/theme';
 import { getCurrentMinutesPlus5Minutes, formatTime } from '@/utils/utils';
 import { TimeWheel } from '@/components/TimeWheel';
 import Button from '@/components/Button';
-import { useApp } from '../context/AppContext';
+import { useApp } from '../../context/AppContext';
 
 type TimeField = 'start' | 'end'
 
