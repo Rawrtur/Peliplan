@@ -12,8 +12,8 @@ import { useApp } from '../context/AppContext';
 type TimeField = 'start' | 'end'
 
 const SetTimes = () => {
-    const [startTime, setStartTime] = useState(getCurrentMinutesPlus5Minutes)
-    const [endTime, setEndTime] = useState<number | null>(null)
+    const [startTime, setStart] = useState(getCurrentMinutesPlus5Minutes)
+    const [endTime, setEnd] = useState<number | null>(null)
     const [editingField, setEditingField] = useState<TimeField | null>(null)
     const [draftTime, setDraftTime] = useState(getCurrentMinutesPlus5Minutes)
 
@@ -22,7 +22,8 @@ const SetTimes = () => {
         setEditingField(field)
     }
 
-    const { todos } = useApp();
+    const { setStartTime, setEndTime } = useApp();
+
 
     const adjustDraftTime = useCallback((amount: number) => {
         setDraftTime((currentTime) => (currentTime + amount + 24 * 60) % (24 * 60))
@@ -30,9 +31,9 @@ const SetTimes = () => {
 
     const saveTime = () => {
         if (editingField === 'start') {
-            setStartTime(draftTime)
+            setStart(draftTime)
         } else if (editingField === 'end') {
-            setEndTime(draftTime)
+            setEnd(draftTime)
         }
         setEditingField(null)
     }
@@ -136,7 +137,7 @@ const SetTimes = () => {
                         {editingField === 'end' && (
                             <TouchableOpacity
                                 onPress={() => {
-                                    setEndTime(null)
+                                    setEnd(null)
                                     setEditingField(null)
                                 }}
                                 className="items-center py-2"
@@ -161,13 +162,14 @@ const SetTimes = () => {
                     </View>
                 </View>
             </Modal>
-            {todos.map((task) => (
-                <ThemedText key={task.id}>{task.title}</ThemedText>
-            ))}
             <View className="w-full absolute bottom-20 p-5">
                 <Button
                     text="Continue →"
-                    onPress={() => router.push("/setTimes")}
+                    onPress={() => {
+                        setStartTime(formatTime(startTime));
+                        setEndTime(endTime ? formatTime(endTime) : undefined);
+                        router.push("/setTimes");
+                    }}
                 />
             </View>
         </View>

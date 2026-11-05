@@ -16,7 +16,7 @@ export interface AppContextType {
     startTime: string | undefined;
     endTime: string | undefined;
     setStartTime: (time: string) => void;
-    setEndTime: (time: string) => void;
+    setEndTime: (time: string|undefined) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
