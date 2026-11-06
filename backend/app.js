@@ -31,3 +31,5 @@ app.listen(PORT, async () => {
   console.log(`Peliplan API is running on http://localhost:${PORT}`);
   await connectToDatabase();
 });
+
+export default app;
