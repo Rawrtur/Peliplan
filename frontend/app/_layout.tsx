@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { AuthProvider } from "../context/AuthContext";
 import { AppProvider } from "../context/AppContext";
 import "@/global.css";
+import { OnboardingProvider } from "@/context/OnboardingContext";
 
 // void SplashScreen.preventAutoHideAsync();
 
@@ -28,7 +29,9 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <AppProvider>
-        <Stack screenOptions={{ headerShown: false }} />
+        <OnboardingProvider>
+          <Stack screenOptions={{ headerShown: false }} />
+        </OnboardingProvider>
       </AppProvider>
     </AuthProvider>
   );
