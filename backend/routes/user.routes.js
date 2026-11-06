@@ -1,13 +1,13 @@
 import { Router } from "express";
+import { getUserbyId, getUsers } from "../controllers/user.controller.js";
+import { authorize } from "../middlewares/auth.middleware.js";
 
 const userRouter = Router();
 
-userRouter.get("/", (req, res) =>
-  res.send({ message: "NIY: GET All Users" }),
-);
-userRouter.get("/user/me", (req, res) =>
-  res.send({ message: "NIY: GET User Details" }),
-);
+userRouter.get("/", getUsers);
+
+userRouter.get("/user/:id",authorize, getUserbyId);
+
 userRouter.post("/", (req, res) =>
   res.send({ message: "NIY: CREATE new User" }),
 );
