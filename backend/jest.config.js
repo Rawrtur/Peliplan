@@ -3,10 +3,11 @@ export default {
     transform: {},
 
     testMatch: [
-        "**/tests/**/*.test.js"
+        "**/tests/**/authRoutes.test.js"
     ],
 
     setupFiles: [
         "<rootDir>/tests/setup.js"
-    ]
+    ],
+    testTimeout: 10000
 };

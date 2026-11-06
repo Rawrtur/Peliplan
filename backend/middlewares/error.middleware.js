@@ -2,11 +2,9 @@ const errorMiddleware = (err, req, res, next) => {
   try {
     let error = { ...err };
 
-    error.message = err.message;
 
-    console.error(err);
-    let message;
-    let statusCode;
+    let message = err.message;
+    let statusCode = err.statusCode;
     //Mongoose bad ObjectId
     if (err.name === "CastError") {
       message = "Resource not found";
@@ -26,9 +24,10 @@ const errorMiddleware = (err, req, res, next) => {
         .join(", ");
       statusCode = 400;
     }
-
     error = new Error(message);
     error.statusCode = statusCode;
+
+
 
     res 
       .status(error.statusCode || 500)

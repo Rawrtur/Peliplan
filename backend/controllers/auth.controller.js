@@ -25,7 +25,8 @@ export const signUp = async (req, res, next) => {
     );
 
     const verificationCode = generateVerficationCode();
-
+    // for testing
+    // const verificationCode = "333555";
     // Hash password
     const salt = await bcrypt.genSalt(10);
 
@@ -53,7 +54,7 @@ export const signUp = async (req, res, next) => {
       // sonst neuen Nutzer zum verifizieren weiter leiten
       existingUser.verificationCode = hashedVerificationCode;
       existingUser.verificationExpiresIn = new Date(
-        Date.now() + 15 * 60 * 1000,
+        Date.now() + 5 * 60 * 1000, // 5 Minuten
       );
       // Code wird nach dem else gesendet
 
@@ -173,6 +174,8 @@ export const resendVerify = async (req, res, next) => {
     }
 
     const verificationCode = generateVerficationCode();
+    // For testing
+    // const verificationCode = "333555";
     const salt = await bcrypt.genSalt(10);
     const hashedVerificationCode = await bcrypt.hash(verificationCode, salt);
 
