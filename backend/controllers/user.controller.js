@@ -141,8 +141,7 @@ export const updateEmail = async (req, res, next) => {
       throw error;
     }
 
-    // const verificationCode = generateVerficationCode();
-    const verificationCode = "111333";
+    const verificationCode = generateVerficationCode();
 
     const salt = await bcrypt.genSalt(10);
     const hashedVerificationCode = await bcrypt.hash(verificationCode, salt);
@@ -153,7 +152,7 @@ export const updateEmail = async (req, res, next) => {
     user.verificationExpiresIn = new Date(Date.now() + 15 * 60 * 1000);
     await user.save();
 
-    // await sendVerificationEmail(normalizedEmail, verificationCode);
+    await sendVerificationEmail(normalizedEmail, verificationCode);
 
     res.status(200).json({
       success: true,
@@ -253,8 +252,7 @@ export const forgotPassword = async (req, res, next) => {
       });
     }
 
-    // const rawToken = crypto.randomBytes(32).toString("hex");
-    const rawToken = "a7f3c91e82b4d60f5a1e9c73d8b2f406";
+    const rawToken = crypto.randomBytes(32).toString("hex");
     const hashedToken = crypto
       .createHash("sha256")
       .update(rawToken)
@@ -265,7 +263,7 @@ export const forgotPassword = async (req, res, next) => {
 
     await user.save();
 
-    // await sendVerificationEmail(user.email, rawToken);
+    await sendVerificationEmail(user.email, rawToken);
 
     res.status(201).json({
       success: true,
