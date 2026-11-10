@@ -1,11 +1,11 @@
 import { Router } from "express";
 import { getUserbyId, getUsers } from "../controllers/user.controller.js";
 import { authorize } from "../middlewares/auth.middleware.js";
-import { rateLimiter } from "../middlewares/rateLimiter.middleware.js";
+import authorizeAdmin from "../middlewares/admin.middleware.js";
 
 const userRouter = Router();
 
-userRouter.get("/",rateLimiter, getUsers);
+userRouter.get("/",authorize,authorizeAdmin, getUsers);
 
 userRouter.get("/user/:id",authorize, getUserbyId);
 
