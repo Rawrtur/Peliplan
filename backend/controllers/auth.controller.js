@@ -103,7 +103,9 @@ export const verify = async (req, res, next) => {
 
     const normalizedEmail = normalizeEmail(email);
 
-    const user = await User.findOne({ email: normalizedEmail });
+    const user = await User.findOne({
+      $or: [{ email: normalizedEmail }, { pendingEmail: normalizedEmail }],
+    });
     // Angriffsversuche herausfiltern
     if (
       !user || // keine richtige Email -> Versuch Accounts zu finden
@@ -146,7 +148,7 @@ export const verify = async (req, res, next) => {
 
     const token = createToken(user._id);
 
-    res.json({
+    res.status(200).json({
       success: true,
       data: {
         token,

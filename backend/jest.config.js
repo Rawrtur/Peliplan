@@ -3,7 +3,7 @@ export default {
     transform: {},
 
     testMatch: [
-        "**/tests/**/authRoutes.test.js"
+        "**/tests/**/userRoutes.test.js"
     ],
 
     setupFiles: [

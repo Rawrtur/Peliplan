@@ -21,6 +21,8 @@ const authorizeAdmin = (req, res, next) => {
         message: "Forbidden",
       });
     }
+    
+    next();
   } catch (error) {
     next(error);
   }

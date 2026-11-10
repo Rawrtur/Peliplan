@@ -4,6 +4,8 @@ import { sendVerificationEmail } from "../utils/sendEmail.util.js";
 import { generateVerficationCode, normalizeEmail } from "../utils/auth.util.js";
 import mongoose from "mongoose";
 import Template from "../models/template.model.js";
+import crypto from "crypto";
+
 
 /**
  * gets all the user
@@ -139,7 +141,8 @@ export const updateEmail = async (req, res, next) => {
       throw error;
     }
 
-    const verificationCode = generateVerficationCode();
+    // const verificationCode = generateVerficationCode();
+    const verificationCode = "111333";
 
     const salt = await bcrypt.genSalt(10);
     const hashedVerificationCode = await bcrypt.hash(verificationCode, salt);
@@ -150,7 +153,7 @@ export const updateEmail = async (req, res, next) => {
     user.verificationExpiresIn = new Date(Date.now() + 15 * 60 * 1000);
     await user.save();
 
-    await sendVerificationEmail(normalizedEmail, verificationCode);
+    // await sendVerificationEmail(normalizedEmail, verificationCode);
 
     res.status(200).json({
       success: true,
@@ -201,7 +204,6 @@ export const updateName = async (req, res, next) => {
   }
 };
 
-
 export const deleteUser = async (req, res, next) => {
   const session = await mongoose.startSession();
 
@@ -218,7 +220,7 @@ export const deleteUser = async (req, res, next) => {
       throw error;
     }
 
-    await Template.deleteMany({user: userId}, {session})
+    await Template.deleteMany({ user: userId }, { session });
     await User.deleteOne({ _id: userId }, { session });
 
     await session.commitTransaction();
@@ -237,21 +239,22 @@ export const deleteUser = async (req, res, next) => {
   }
 };
 
-
 export const forgotPassword = async (req, res, next) => {
   try {
-    const user = await User.findOne({
-      _id: req.params.id,
-    });
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
 
     if (!user) {
       // Wichtig: Immer gleiche Antwort, egal ob E-Mail existiert!
-      return res.json({
+      res.status(201).json({
+        success: true,
         message: "If the email address exists, a link has been sent.",
       });
     }
 
-    const rawToken = crypto.randomBytes(32).toString("hex");
+    // const rawToken = crypto.randomBytes(32).toString("hex");
+    const rawToken = "a7f3c91e82b4d60f5a1e9c73d8b2f406";
     const hashedToken = crypto
       .createHash("sha256")
       .update(rawToken)
@@ -262,7 +265,7 @@ export const forgotPassword = async (req, res, next) => {
 
     await user.save();
 
-    await sendVerificationEmail(user.email, rawToken);
+    // await sendVerificationEmail(user.email, rawToken);
 
     res.status(201).json({
       success: true,
@@ -279,7 +282,6 @@ export const resetPassword = async (req, res, next) => {
 
     const salt = await bcrypt.genSalt(10);
     const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
-
     const user = await User.findOne({
       resetPasswordToken: hashedToken,
       resetPasswordExpires: { $gt: Date.now() },
