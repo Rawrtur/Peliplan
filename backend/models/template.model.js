@@ -2,6 +2,12 @@ import mongoose from "mongoose";
 
 const templateSchema = mongoose.Schema(
   {
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+      required: [true, "User is required"],
+      index: true,
+    },
     title: {
       type: String,
       required: [true, "Template Title is required"],
@@ -22,8 +28,8 @@ const templateSchema = mongoose.Schema(
           type: Date,
         },
         duration: {
-          type: Number
-        }
+          type: Number,
+        },
       },
     ],
   },
